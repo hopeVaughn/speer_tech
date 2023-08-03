@@ -4,7 +4,7 @@ import { callData } from '../utils/data';
 
 const ArchivePage: React.FC = () => {
   return (
-    <section className="relative mt-12 flex flex-col overflow-auto h-[60vh]">
+    <section className="relative mt-12 flex flex-col overflow-auto h-[70vh]">
       <ActivityItem data={callData} onlyArchived={true} />
     </section>
   );
