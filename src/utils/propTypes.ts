@@ -1,15 +1,18 @@
-export interface Call {
-  id: string;
-  created_at: string;
-  direction: string;
-  from: string;
-  to: string;
-  via: string;
-  duration: number;
-  is_archived: boolean;
-  call_type: string;
-}
+export type CallType = "missed" | "answered" | "voicemail";
+export type CallDirection = "inbound" | "outbound";
 
 export interface CallProps {
-  calls: Call[];
+  call: {
+    id: string;
+    created_at: string;
+    direction: CallDirection;
+    from: string;
+    to: string;
+    via: string;
+    duration: number;
+    is_archived: boolean;
+    call_type: CallType;
+  };
 }
+
+
