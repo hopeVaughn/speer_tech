@@ -1,6 +1,6 @@
 import React from 'react'
-
-const ActivityFeed: React.FC = () => {
+import { CallProps } from '../utils/propTypes'
+const ActivityFeed: React.FC<CallProps> = () => {
   return (
     <div>ActivityFeed</div>
   )

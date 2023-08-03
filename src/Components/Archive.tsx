@@ -1,6 +1,6 @@
 import React from 'react'
-
-const Archive: React.FC = () => {
+import { CallProps } from '../utils/propTypes'
+const Archive: React.FC<CallProps> = () => {
   return (
     <div>Archive</div>
   )
