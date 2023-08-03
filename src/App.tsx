@@ -4,7 +4,7 @@ import Header from './Components/Header';
 import ActivityFeed from './Components/ActivityFeed';
 import ActivityDetail from './Components/ActivityDetail';
 import Archive from './Components/Archive';
-
+import BottomNav from './Components/BottomNav';
 const App: React.FC = () => {
   const [calls, setCalls] = useState([]);
 
@@ -24,6 +24,7 @@ const App: React.FC = () => {
             <Route path="detail/:id" element={<ActivityDetail calls={calls} />} />
           </Routes>
         </main>
+        <BottomNav />
       </Router>
     </div>
   );
