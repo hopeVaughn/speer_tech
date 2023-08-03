@@ -1,15 +1,13 @@
 import React from 'react';
-
-import Header from './Header.jsx';
+import Header from './Components/Header';
 
 const App: React.FC = () => {
   return (
-    <div className='container'>
+    <div className='min-h-screen flex flex-col'>
       <Header />
-      <div className="container-view">Some activities should be here</div>
+      <div className="container flex-grow">Some activities should be here</div>
     </div>
   );
 };
-
 
 export default App;
