@@ -6,6 +6,9 @@ export default {
     extend: {
       colors: {
         'custom-green': '#2AC420',
+        'light-custom-green': '#B6E8B3',
+        'custom-peach': '#FFE5B4',
+        'light-custom-pink': '#ffeff7',
       }
     },
   },
