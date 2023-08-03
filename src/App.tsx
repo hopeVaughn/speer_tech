@@ -5,6 +5,7 @@ import ActivityFeed from './Components/ActivityFeed';
 import ActivityDetail from './Components/ActivityDetail';
 import Archive from './Components/Archive';
 import BottomNav from './Components/BottomNav';
+
 const App: React.FC = () => {
   const [calls, setCalls] = useState([]);
 
@@ -17,7 +18,6 @@ const App: React.FC = () => {
       <Router>
         <Header />
         <main className="flex-grow">
-          <Archive calls={calls} />
           <Routes>
             <Route path="/" element={<ActivityFeed calls={calls} />} />
             <Route path="archive" element={<Archive calls={calls} />} />

@@ -3,26 +3,34 @@ import ActivityDate from './ActivityDate';
 import ActivityDetail from './ActivityDetail';
 import { CallProps } from '../utils/propTypes';
 
+interface ActivityItemProps {
+  data: CallProps[];
+}
 
-const ActivityItem: React.FC<CallProps> = ({ call }) => {  // Destructure 'call' from props
-  // Then you can destructure properties from the 'call' object
-  const { created_at, direction, from } = call;
-
-  // Convert the 'created_at' string to a Date object
-  const callTime = new Date(created_at);
-
-  // Map the 'direction' field to the 'iconType' field
-  const iconType = direction === 'inbound' ? 'incoming' : 'outgoing';
-
+const ActivityItem: React.FC<ActivityItemProps> = ({ data }) => {
   return (
-    <div className="flex flex-col">
-      <ActivityDate date={callTime} />
-      <ActivityDetail
-        callNumber={from}
-        callTime={callTime}
-        iconType={iconType}
-      />
-    </div>
+    <>
+      {data.map((call) => {
+        // Convert the 'created_at' string to a Date object
+        const callTime = new Date(call.created_at);
+        const callType = call.call_type;
+        // Map the 'direction' field to the 'iconType' field
+        const iconType = call.direction === 'inbound' ? 'incoming' : 'outgoing';
+
+        return (
+          // Add the 'p-4' class to add padding
+          <div className="flex flex-col p-4" key={call.id}>
+            <ActivityDate date={callTime} />
+            <ActivityDetail
+              callNumber={call.from}
+              callTime={callTime}
+              iconType={iconType}
+              callType={callType}
+            />
+          </div>
+        );
+      })}
+    </>
   );
 };
 
