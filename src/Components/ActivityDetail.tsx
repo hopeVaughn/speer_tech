@@ -1,9 +1,38 @@
-import React from 'react'
-import { CallProps } from '../utils/propTypes'
-const ActivityDetail: React.FC<CallProps> = () => {
-  return (
-    <div>ActivityDetail</div>
-  )
+import React from 'react';
+import { VscCallIncoming, VscCallOutgoing } from 'react-icons/vsc';
+
+interface IconTypeProps {
+  incoming: 'incoming',
+  outgoing: 'outgoing',
+}
+interface ActivityComponentProps {
+  callNumber: string;
+  callTime: Date;
+  iconType: keyof IconTypeProps;
 }
 
-export default ActivityDetail
+const ActivityDetail: React.FC<ActivityComponentProps> = ({
+  callNumber,
+  callTime,
+  iconType,
+}) => {
+  const iconSize = 24;
+
+  return (
+    <div className="p-4 rounded-lg shadow-md w-3/5 bg-white mx-auto">
+      <div className="flex flex-col items-center justify-center sm:flex-row sm:justify-between">
+        <div className="flex items-center mb-2 sm:mb-0">
+          {iconType === 'incoming' ? <VscCallIncoming size={iconSize} /> : <VscCallOutgoing size={iconSize} />}
+          <span className="font-bold text-lg ml-2 sm:ml-4">{callNumber}</span>
+        </div>
+        <div className="text-sm text-gray-600 sm:mt-0 mt-2">
+          {callTime.toLocaleTimeString()}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ActivityDetail;
+
+

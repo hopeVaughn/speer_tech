@@ -1,16 +1,20 @@
-import React from 'react'
-import { CallProps } from '../utils/propTypes'
-const ActivityFeed: React.FC<CallProps> = () => {
-  return (
-    <div className="relative mt-12">
-      <div className="absolute inset-0 flex items-center" aria-hidden="true">
-        <div className="w-full border-t border-gray-300" />
-      </div>
-      <div className="relative flex justify-center divide-y divide-dotted">
-        <span className="bg-white px-2 text-sm text-gray-500">Date of Activity</span>
-      </div>
-    </div>
-  )
-}
+import React from 'react';
+import ActivityItem from './ActivityItem';
 
-export default ActivityFeed
+// This is just placeholder data - replace with your API data
+const calls = [
+  { callNumber: "555-555-5555", callTime: new Date(), iconType: "incoming" as const },
+  // Add more calls as needed
+];
+
+const ActivityFeed: React.FC = () => {
+  return (
+    <div className="relative mt-12 flex flex-col">
+      {calls.map((call, index) => (
+        <ActivityItem key={index} call={call} />
+      ))}
+    </div>
+  );
+};
+
+export default ActivityFeed;
