@@ -17,6 +17,7 @@ const App: React.FC = () => {
       <Router>
         <Header />
         <main className="flex-grow">
+          <Archive calls={calls} />
           <Routes>
             <Route path="/" element={<ActivityFeed calls={calls} />} />
             <Route path="archive" element={<Archive calls={calls} />} />
