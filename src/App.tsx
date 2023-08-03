@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './Components/Header';
-import ActivityFeed from './Components/ActivityFeed';
+import AllCalls from './Components/AllCalls';
 import ActivityDetail from './Components/ActivityDetail';
-import Archive from './Components/Archive';
+import ArchivedPage from './Components/ArchivedPage';
 import BottomNav from './Components/BottomNav';
 
 const App: React.FC = () => {
@@ -19,8 +19,8 @@ const App: React.FC = () => {
         <Header />
         <main className="flex-grow">
           <Routes>
-            <Route path="/" element={<ActivityFeed calls={calls} />} />
-            <Route path="archive" element={<Archive calls={calls} />} />
+            <Route path="/archive" element={<ArchivedPage calls={calls} />} />
+            <Route path="/" element={<AllCalls calls={calls} />} />
             <Route path="detail/:id" element={<ActivityDetail calls={calls} />} />
           </Routes>
         </main>

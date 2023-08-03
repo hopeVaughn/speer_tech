@@ -27,7 +27,7 @@ const ActivityDetail: React.FC<ActivityComponentProps> = ({
         <div className="flex items-center mb-2 sm:mb-0">
           {iconType === 'incoming' ?
             <VscCallIncoming size={iconSize} color={callType === 'missed' ? 'red' : undefined} /> :
-            <VscCallOutgoing size={iconSize} />}
+            <VscCallOutgoing size={iconSize} color={callType === 'missed' ? 'red' : undefined} />}
           <span className="font-bold text-lg ml-2 sm:ml-4">{callNumber}</span>
         </div>
         <div className="text-sm text-gray-600 sm:mt-0 mt-2">

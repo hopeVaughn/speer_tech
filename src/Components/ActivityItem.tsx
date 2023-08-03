@@ -5,20 +5,18 @@ import { CallProps } from '../utils/propTypes';
 
 interface ActivityItemProps {
   data: CallProps[];
+  onlyArchived: boolean; // New prop
 }
 
-const ActivityItem: React.FC<ActivityItemProps> = ({ data }) => {
+const ActivityItem: React.FC<ActivityItemProps> = ({ data, onlyArchived }) => {
   return (
     <>
-      {data.map((call) => {
-        // Convert the 'created_at' string to a Date object
+      {data.filter(call => call.is_archived === onlyArchived).map((call) => {
         const callTime = new Date(call.created_at);
         const callType = call.call_type;
-        // Map the 'direction' field to the 'iconType' field
         const iconType = call.direction === 'inbound' ? 'incoming' : 'outgoing';
 
         return (
-          // Add the 'p-4' class to add padding
           <div className="flex flex-col p-4" key={call.id}>
             <ActivityDate date={callTime} />
             <ActivityDetail

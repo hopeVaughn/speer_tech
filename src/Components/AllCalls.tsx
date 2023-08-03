@@ -4,9 +4,9 @@ import { callData } from '../utils/data';
 
 const ActivityFeed: React.FC = () => {
   return (
-    <div className="relative mt-12 flex flex-col overflow-auto h-[60vh]"> {/* Set height relative to viewport height */}
-      <ActivityItem data={callData} />
-    </div>
+    <section className="relative mt-12 flex flex-col overflow-auto h-[60vh]">
+      <ActivityItem data={callData} onlyArchived={false} />
+    </section>
   );
 };
 

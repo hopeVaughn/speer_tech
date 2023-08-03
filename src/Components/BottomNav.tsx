@@ -5,7 +5,8 @@ import { IoMdKeypad } from 'react-icons/io';
 import { callData } from '../utils/data';
 
 const BottomNav: React.FC = () => {
-  const totalMissedCalls = callData.filter((call) => call.is_archived === false && call.call_type === 'missed').length;
+
+  const totalMissedCalls = callData.filter((call) => call.is_archived === false && call.direction === 'inbound' && call.call_type === 'missed').length;
   return (
     <nav className="fixed inset-x-0 bottom-0 h-16 bg-light-custom-pink shadow-md flex items-center justify-around rounded-tl-3xl rounded-tr-3xl">
       <button className="flex flex-col items-center relative bg-custom-peach rounded-full p-2 shadow-lg">

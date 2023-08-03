@@ -10,7 +10,7 @@ export const callData: CallProps[] = [
     "via": "+17778887766",
     "duration": 180,
     "is_archived": false,
-    "call_type": "answered"
+    "call_type": "missed"
   },
   {
     "id": "2",
