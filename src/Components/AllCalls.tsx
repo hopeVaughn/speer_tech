@@ -1,11 +1,15 @@
 import React from 'react';
 import ActivityItem from './ActivityItem';
-import { callData } from '../utils/data';
+import { CallProps } from '../utils/propTypes';
 import Archive from './Archive';
 
-const ActivityFeed: React.FC = () => {
+interface AllCallsProps {
+  calls: CallProps[];
+}
+
+const ActivityFeed: React.FC<AllCallsProps> = ({ calls }) => {
   const archiveAllMessages = () => {
-    // Add the function that archives all messages here
+
   };
   return (
     <section className="relative mt-12 flex flex-col overflow-auto h-[70vh]">
@@ -15,7 +19,7 @@ const ActivityFeed: React.FC = () => {
           buttonAction={archiveAllMessages}
         />
       </div>
-      <ActivityItem data={callData} onlyArchived={false} />
+      <ActivityItem data={calls} onlyArchived={false} />
     </section>
   );
 };

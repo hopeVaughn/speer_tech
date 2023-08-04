@@ -1,40 +1,58 @@
-import React from 'react';
-import { VscCallIncoming, VscCallOutgoing } from 'react-icons/vsc';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useParams, useNavigate } from 'react-router-dom';
+import Modal from './Modal';
 
-interface IconTypeProps {
-  incoming: 'incoming',
-  outgoing: 'outgoing',
+interface ActivityDetailProps {
+  from: string;
+  direction: string;
+  call_type: string;
+  created_at: string;
+  duration: number;
+  is_archived: boolean;
 }
 
-interface ActivityComponentProps {
-  callNumber: string;
-  callTime: Date;
-  iconType: keyof IconTypeProps;
-  callType?: string;
-}
+const ActivityDetail: React.FC = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [activityDetail, setActivityDetail] = useState<ActivityDetailProps | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-const ActivityDetail: React.FC<ActivityComponentProps> = ({
-  callNumber,
-  callTime,
-  iconType,
-  callType
-}) => {
-  const iconSize = 24;
+  useEffect(() => {
+    if (id) {
+      setIsLoading(true);
+      axios.get(`${import.meta.env.VITE_DATABASE_URL_DEV}/${id}`)
+        .then(response => {
+          console.log(response.data);
+          setActivityDetail(response.data);
+          setIsLoading(false);
+          setIsModalOpen(true);
+        })
+        .catch(error => {
+          console.error(error);
+          setIsLoading(false);
+        });
+    }
+  }, [id]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!activityDetail) {
+    return null;
+  }
+
+  const handleClose = () => {
+    setIsModalOpen(false);
+    navigate('/');
+  };
 
   return (
-    <div className="p-4 rounded-lg shadow-md w-3/5 bg-white mx-auto">
-      <div className="flex flex-col items-center justify-center sm:flex-row sm:justify-between">
-        <div className="flex items-center mb-2 sm:mb-0">
-          {iconType === 'incoming' ?
-            <VscCallIncoming size={iconSize} color={callType === 'missed' ? 'red' : undefined} /> :
-            <VscCallOutgoing size={iconSize} color={callType === 'missed' ? 'red' : undefined} />}
-          <span className="font-bold text-lg ml-2 sm:ml-4">{callNumber}</span>
-        </div>
-        <div className="text-sm text-gray-600 sm:mt-0 mt-2">
-          {callTime.toLocaleTimeString()}
-        </div>
-      </div>
-    </div>
+    <>
+      {isModalOpen && <Modal {...activityDetail} callType={activityDetail.call_type} direction={activityDetail.direction} duration={activityDetail.duration} isArchived={activityDetail.is_archived} handleClose={handleClose} from={activityDetail.from} />}
+    </>
   );
 };
 

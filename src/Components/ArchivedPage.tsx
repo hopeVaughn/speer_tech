@@ -1,9 +1,11 @@
 import React from 'react';
 import Archive from './Archive';
 import ActivityItem from './ActivityItem';
-import { callData } from '../utils/data';
-
-const ArchivePage: React.FC = () => {
+import { CallProps } from '../utils/propTypes';
+interface ArchivedPageProps {
+  calls: CallProps[];
+}
+const ArchivePage: React.FC<ArchivedPageProps> = ({ calls }) => {
   const restoreAllMessages = () => {
     // Add the function that restores all messages here
   };
@@ -15,7 +17,7 @@ const ArchivePage: React.FC = () => {
           buttonAction={restoreAllMessages}
         />
       </div>
-      <ActivityItem data={callData} onlyArchived={true} />
+      <ActivityItem data={calls} onlyArchived={true} />
     </section>
   );
 };

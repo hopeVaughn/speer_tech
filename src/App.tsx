@@ -8,10 +8,12 @@ import ArchivedPage from './Components/ArchivedPage';
 import BottomNav from './Components/BottomNav';
 import { CallProps } from './utils/propTypes';
 const App: React.FC = () => {
-  const [calls, setCalls] = useState<CallProps | never[]>([]);
+  const [calls, setCalls] = useState<CallProps[]>([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/activities') // replace with your server's address
+    console.log(import.meta.env.VITE_DATABASE_URL_DEV);
+
+    axios.get(import.meta.env.VITE_DATABASE_URL_DEV)
       .then(response => {
         setCalls(response.data);
       })
@@ -28,7 +30,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/archive" element={<ArchivedPage calls={calls} />} />
             <Route path="/" element={<AllCalls calls={calls} />} />
-            <Route path="detail/:id" element={<ActivityDetail calls={calls} />} />
+            <Route path="detail/:id" element={<ActivityDetail />} />
           </Routes>
         </main>
         <BottomNav />
