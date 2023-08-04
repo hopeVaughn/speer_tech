@@ -12,7 +12,7 @@ const ActivityFeed: React.FC<AllCallsProps> = ({ calls }) => {
 
   };
   return (
-    <section className="relative mt-12 flex flex-col overflow-auto h-[70vh]">
+    <section className="relative mt-12 flex flex-col overflow-auto h-[78vh]">
       <div className="sticky top-0 z-10">
         <Archive
           buttonText="Archive all messages"
