@@ -52,3 +52,37 @@ export const patchActivity = async (req: Request, res: Response): Promise<void> 
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+/**
+ * Archives all calls in the database and returns a success message as a JSON response.
+ * @param {Request} req - Express request object.
+ * @param {Response} res - Express response object.
+ * @returns {Promise<void>} - Promise that resolves when the response has been sent.
+ */
+export const archiveAllActivities = async (req: Request, res: Response): Promise<void> => {
+  try {
+    await Call.update({ is_archived: true }, { where: {} });
+    res.json({ message: "All calls archived successfully" });
+  } catch (error) {
+    console.error("Error archiving all activities:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+/**
+ * Unarchives all calls in the database and returns a success message as a JSON response.
+ * @param {Request} req - Express request object.
+ * @param {Response} res - Express response object.
+ * @returns {Promise<void>} - Promise that resolves when the response has been sent.
+ */
+export const unarchiveAllActivities = async (req: Request, res: Response): Promise<void> => {
+  try {
+    await Call.update({ is_archived: false }, { where: {} });
+    res.json({ message: "All calls unarchived successfully" });
+  } catch (error) {
+    console.error("Error unarchiving all activities:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+
