@@ -17,6 +17,7 @@ const ActivityFeed: React.FC<AllCallsProps> = ({ calls }) => {
         <Archive
           buttonText="Archive all messages"
           buttonAction={archiveAllMessages}
+          tabType='archive'
         />
       </div>
       <ActivityItem data={calls} onlyArchived={false} />

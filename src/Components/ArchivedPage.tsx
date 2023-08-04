@@ -15,6 +15,7 @@ const ArchivePage: React.FC<ArchivedPageProps> = ({ calls }) => {
         <Archive
           buttonText="Restore all messages"
           buttonAction={restoreAllMessages}
+          tabType='restore'
         />
       </div>
       <ActivityItem data={calls} onlyArchived={true} />
