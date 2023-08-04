@@ -5,18 +5,16 @@ import Archive from './Archive';
 
 interface AllCallsProps {
   calls: CallProps[];
+  refreshCalls: () => void;
 }
 
-const ActivityFeed: React.FC<AllCallsProps> = ({ calls }) => {
-  const archiveAllMessages = () => {
-
-  };
+const ActivityFeed: React.FC<AllCallsProps> = ({ calls, refreshCalls }) => {
   return (
     <section className="relative mt-12 flex flex-col overflow-auto h-[78vh]">
       <div className="sticky top-0 z-10">
         <Archive
           buttonText="Archive all messages"
-          buttonAction={archiveAllMessages}
+          refreshCalls={refreshCalls}
           tabType='archive'
         />
       </div>

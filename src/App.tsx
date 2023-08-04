@@ -9,6 +9,19 @@ import BottomNav from './Components/BottomNav';
 import { CallProps } from './utils/propTypes';
 const App: React.FC = () => {
   const [calls, setCalls] = useState<CallProps[]>([]);
+  const refreshCalls = () => {
+    axios.get(import.meta.env.VITE_DATABASE_URL_DEV)
+      .then(response => {
+        setCalls(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching activities:', error);
+      });
+  };
+
+  useEffect(() => {
+    refreshCalls();
+  }, []);
 
   useEffect(() => {
     axios.get(import.meta.env.VITE_DATABASE_URL_DEV)
@@ -26,8 +39,8 @@ const App: React.FC = () => {
         <Header />
         <main className="flex-grow">
           <Routes>
-            <Route path="/archive" element={<ArchivedPage calls={calls} />} />
-            <Route path="/" element={<ActiveCalls calls={calls} />} />
+            <Route path="/archive" element={<ArchivedPage calls={calls} refreshCalls={refreshCalls} />} />
+            <Route path="/" element={<ActiveCalls calls={calls} refreshCalls={refreshCalls} />} />
             <Route path="detail/:id" element={<ActivityDetail />} />
           </Routes>
         </main>
