@@ -18,10 +18,9 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ data, onlyArchived }) => {
         const callType = call.call_type;
         const iconType = call.direction === 'inbound' ? 'incoming' : 'outgoing';
         const callNumber = call.from;
-        console.log(callTime);
 
         return (
-          <article className="flex flex-col p-4">
+          <article className="flex flex-col p-4" key={call.id}>
             <ActivityDate date={callTime} />
             <section className="p-4 rounded-lg shadow-md w-3/5 bg-white mx-auto">
               <Link to={`/detail/${call.id}`} key={call.id}>
