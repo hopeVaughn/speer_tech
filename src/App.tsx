@@ -13,9 +13,23 @@ const App: React.FC = () => {
   const [archivedCalls, setArchivedCalls] = useState<CallProps[]>([]);
   const [activeCalls, setActiveCalls] = useState<CallProps[]>([]);
 
+  const handleButtonClick = async (tabType: string) => {
+    const url = `${import.meta.env.VITE_DATABASE_URL_DEV}/${tabType === 'archive' ? 'archiveAll' : 'unarchiveAll'}`;
+    try {
+      const response = await axios.patch(url);
+      const updatedCalls = response.data;
+      setCalls(updatedCalls);
+      setArchivedCalls(updatedCalls.filter((call: CallProps) => call.is_archived));
+      setActiveCalls(updatedCalls.filter((call: CallProps) => !call.is_archived));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
   const refreshCalls = async () => {
     try {
-      const response = await axios.get(import.meta.env.VITE_DATABASE_URL_DEV);
+      const response = await axios.get(`${import.meta.env.VITE_DATABASE_URL_DEV}`);
       const allCalls = response.data;
       setCalls(allCalls);
       setArchivedCalls(allCalls.filter((call: CallProps) => call.is_archived));
@@ -41,8 +55,8 @@ const App: React.FC = () => {
         <Header />
         <main className="flex-grow">
           <Routes>
-            <Route path="/archive" element={<ArchivedPage calls={archivedCalls} refreshCalls={refreshCalls} />} />
-            <Route path="/" element={<ActiveCalls calls={activeCalls} refreshCalls={refreshCalls} />} />
+            <Route path="/archive" element={<ArchivedPage calls={archivedCalls} handleButtonClick={handleButtonClick} />} />
+            <Route path="/" element={<ActiveCalls calls={activeCalls} handleButtonClick={handleButtonClick} />} />
             <Route path="detail/:id" element={<ActivityDetail />} />
           </Routes>
         </main>

@@ -61,7 +61,7 @@ export const patchActivity = async (req: Request, res: Response): Promise<void> 
  */
 export const archiveAllActivities = async (req: Request, res: Response): Promise<void> => {
   try {
-    await Call.update({ is_archived: true }, { where: {} });
+    await Call.update({ is_archived: true }, { where: { is_archived: false } });
     res.json({ message: "All calls archived successfully" });
   } catch (error) {
     console.error("Error archiving all activities:", error);
@@ -77,7 +77,7 @@ export const archiveAllActivities = async (req: Request, res: Response): Promise
  */
 export const unarchiveAllActivities = async (req: Request, res: Response): Promise<void> => {
   try {
-    await Call.update({ is_archived: false }, { where: {} });
+    Call.update({ is_archived: false }, { where: { is_archived: true } });
     res.json({ message: "All calls unarchived successfully" });
   } catch (error) {
     console.error("Error unarchiving all activities:", error);
