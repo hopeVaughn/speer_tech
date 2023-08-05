@@ -12,12 +12,12 @@ const App: React.FC = () => {
   const [calls, setCalls] = useState<CallProps[]>([]);
   const [archivedCalls, setArchivedCalls] = useState<CallProps[]>([]);
   const [activeCalls, setActiveCalls] = useState<CallProps[]>([]);
+  const [showCheckboxes, setShowCheckboxes] = useState(false);
 
   const handleButtonClick = async (tabType: string) => {
     const url = `${import.meta.env.VITE_DATABASE_URL_DEV}/${tabType === 'archive' ? 'archiveAll' : 'unarchiveAll'}`;
     try {
       const response = await axios.put(url);
-      console.log(url);
       const updatedCalls = response.data;
       setCalls(updatedCalls);
       setArchivedCalls(updatedCalls.filter((call: CallProps) => call.is_archived));
@@ -52,11 +52,11 @@ const App: React.FC = () => {
   return (
     <div className='min-h-screen flex flex-col'>
       <Router>
-        <Header />
+        <Header setShowCheckboxes={setShowCheckboxes} />
         <main className="flex-grow">
           <Routes>
-            <Route path="/archive" element={<ArchivedPage calls={archivedCalls} handleButtonClick={handleButtonClick} />} />
-            <Route path="/" element={<ActiveCalls calls={activeCalls} handleButtonClick={handleButtonClick} />} />
+            <Route path="/archive" element={<ArchivedPage calls={archivedCalls} handleButtonClick={handleButtonClick} showCheckboxes={showCheckboxes} />} />
+            <Route path="/" element={<ActiveCalls calls={activeCalls} handleButtonClick={handleButtonClick} showCheckboxes={showCheckboxes} />} />
             <Route path="detail/:id" element={<ActivityDetail />} />
           </Routes>
         </main>
