@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Call } from "../models/call";
-
+import { Op } from 'sequelize';
 /**
  * Retrieves all calls from the database and returns them as a JSON response.
  * @param {Request} req - Express request object.
@@ -118,6 +118,40 @@ export const unarchiveActivity = async (req: Request, res: Response): Promise<vo
     res.json(updatedCall);
   } catch (error) {
     console.error("Error unarchiving the activity:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+/**
+ * Archives selected calls in the database and returns the updated list of calls as a JSON response.
+ * @param {Request} req - Express request object.
+ * @param {Response} res - Express response object.
+ * @returns {Promise<void>} - Promise that resolves when the response has been sent.
+ */
+export const archiveSelectedActivities = async (req: Request, res: Response): Promise<void> => {
+  try {
+    await Call.update({ is_archived: true }, { where: { id: { [Op.in]: req.body.ids } } });
+    const updatedCalls = await Call.findAll();
+    res.json(updatedCalls);
+  } catch (error) {
+    console.error("Error archiving selected activities:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+/**
+ * Unarchives selected calls in the database and returns the updated list of calls as a JSON response.
+ * @param {Request} req - Express request object.
+ * @param {Response} res - Express response object.
+ * @returns {Promise<void>} - Promise that resolves when the response has been sent.
+ */
+export const unarchiveSelectedActivities = async (req: Request, res: Response): Promise<void> => {
+  try {
+    await Call.update({ is_archived: false }, { where: { id: { [Op.in]: req.body.ids } } });
+    const updatedCalls = await Call.findAll();
+    res.json(updatedCalls);
+  } catch (error) {
+    console.error("Error unarchiving selected activities:", error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };

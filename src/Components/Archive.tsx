@@ -11,7 +11,7 @@ interface ArchiveProps {
 
 const Archive: React.FC<ArchiveProps> = ({ buttonText, tabType, handleButtonClick, showCheckboxes }) => {
   // Set the appropriate buttonText based on showCheckboxes and tabType props
-  const archiveButtonText = showCheckboxes ? (tabType === 'archive' ? 'Restore Selected' : 'Archive Selected') : buttonText;
+  const archiveButtonText = showCheckboxes ? (tabType === 'archive' ? 'Archive Selected' : 'Restore Selected') : buttonText;
 
   return (
     <section className="rounded-b-lg min-w-[16rem] max-w-[16rem] h-12 mx-auto flex justify-center items-center bg-white shadow-md px-4 py-1 mt-2">

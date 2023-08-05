@@ -8,9 +8,19 @@ interface ActivityItemProps {
   data: CallProps[];
   onlyArchived: boolean;
   showCheckboxes: boolean;
+  setSelectedCalls: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-const ActivityItem: React.FC<ActivityItemProps> = ({ data, onlyArchived, showCheckboxes }) => {
+const ActivityItem: React.FC<ActivityItemProps> = ({ data, onlyArchived, showCheckboxes, setSelectedCalls }) => {
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>, callId: string) => {
+    if (event.target.checked) {
+      setSelectedCalls(prevSelectedCalls => [...prevSelectedCalls, callId]);
+    } else {
+      setSelectedCalls(prevSelectedCalls => prevSelectedCalls.filter(id => id !== callId));
+    }
+  };
+
   const iconSize = 24;
   return (
     <main>
@@ -35,8 +45,13 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ data, onlyArchived, showChe
                   {callTime.toLocaleTimeString()}
                 </div>
               </Link>
-              {showCheckboxes && <input type="checkbox" className="mr-2 ml-4" />}
-
+              {showCheckboxes && <input
+                type="checkbox"
+                className="mr-2 ml-4"
+                onChange={(e) => handleCheckboxChange(e, call.id)}
+                onClick={(e) => e.stopPropagation()}
+              />
+              }
             </section>
           </article>
         );

@@ -13,19 +13,43 @@ const App: React.FC = () => {
   const [archivedCalls, setArchivedCalls] = useState<CallProps[]>([]);
   const [activeCalls, setActiveCalls] = useState<CallProps[]>([]);
   const [showCheckboxes, setShowCheckboxes] = useState(false);
+  const [selectedCalls, setSelectedCalls] = useState<string[]>([]);
 
-  const handleButtonClick = async (tabType: string) => {
-    const url = `${import.meta.env.VITE_DATABASE_URL_DEV}/${tabType === 'archive' ? 'archiveAll' : 'unarchiveAll'}`;
+  const handleButtonClick = async (actionType: string) => {
+    const urlBase = `${import.meta.env.VITE_DATABASE_URL_DEV}/`;
+    let endpoint;
+
     try {
-      const response = await axios.put(url);
-      const updatedCalls = response.data;
-      setCalls(updatedCalls);
-      setArchivedCalls(updatedCalls.filter((call: CallProps) => call.is_archived));
-      setActiveCalls(updatedCalls.filter((call: CallProps) => !call.is_archived));
+      // Check whether checkboxes are enabled
+      if (showCheckboxes) {
+        // Check whether only one call is selected
+        if (selectedCalls.length === 1) {
+          // Use the single call endpoints
+          endpoint = actionType === 'archive' ? 'archive' : 'unarchive';
+          await axios.put(`${urlBase}${selectedCalls[0]}/${endpoint}`);
+        } else {
+          // Use the selected calls endpoints
+          endpoint = actionType === 'archive' ? 'archiveSelected' : 'unarchiveSelected';
+          await axios.put(`${urlBase}${endpoint}`, { ids: selectedCalls });
+        }
+      } else {
+        // Use the all calls endpoints
+        endpoint = actionType === 'archive' ? 'archiveAll' : 'unarchiveAll';
+        await axios.put(`${urlBase}${endpoint}`);
+      }
+
+      // Fetch the updated list of calls
+      const response = await axios.get(urlBase);
+      const allCalls = response.data;
+      setCalls(allCalls);
+      setArchivedCalls(allCalls.filter((call: CallProps) => call.is_archived));
+      setActiveCalls(allCalls.filter((call: CallProps) => !call.is_archived));
+      setSelectedCalls([]);  // Clear the selected calls
     } catch (error) {
-      console.error(error);
+      console.error(`Error ${actionType}ing calls:`, error);
     }
   };
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,8 +79,8 @@ const App: React.FC = () => {
         <Header setShowCheckboxes={setShowCheckboxes} />
         <main className="flex-grow">
           <Routes>
-            <Route path="/archive" element={<ArchivedPage calls={archivedCalls} handleButtonClick={handleButtonClick} showCheckboxes={showCheckboxes} />} />
-            <Route path="/" element={<ActiveCalls calls={activeCalls} handleButtonClick={handleButtonClick} showCheckboxes={showCheckboxes} />} />
+            <Route path="/archive" element={<ArchivedPage calls={archivedCalls} handleButtonClick={handleButtonClick} showCheckboxes={showCheckboxes} setSelectedCalls={setSelectedCalls} />} />
+            <Route path="/" element={<ActiveCalls calls={activeCalls} handleButtonClick={handleButtonClick} showCheckboxes={showCheckboxes} setSelectedCalls={setSelectedCalls} />} />
             <Route path="detail/:id" element={<ActivityDetail />} />
           </Routes>
         </main>
