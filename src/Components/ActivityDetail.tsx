@@ -22,7 +22,7 @@ const ActivityDetail: React.FC = () => {
   useEffect(() => {
     if (id) {
       setIsLoading(true);
-      axios.get(`${import.meta.env.VITE_DATABASE_URL_DEV}/${id}`)
+      axios.get(`${import.meta.env.VITE_DATABASE_URL_DEV}/activity/${id}`)
         .then(response => {
           console.log(response.data);
           setActivityDetail(response.data);

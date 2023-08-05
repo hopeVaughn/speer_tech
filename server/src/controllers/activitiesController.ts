@@ -54,7 +54,7 @@ export const patchActivity = async (req: Request, res: Response): Promise<void> 
 };
 
 /**
- * Archives all calls in the database and returns a success message as a JSON response.
+ * Archives all calls in the database and returns the updated list of calls as a JSON response.
  * @param {Request} req - Express request object.
  * @param {Response} res - Express response object.
  * @returns {Promise<void>} - Promise that resolves when the response has been sent.
@@ -62,7 +62,9 @@ export const patchActivity = async (req: Request, res: Response): Promise<void> 
 export const archiveAllActivities = async (req: Request, res: Response): Promise<void> => {
   try {
     await Call.update({ is_archived: true }, { where: { is_archived: false } });
-    res.json({ message: "All calls archived successfully" });
+    const updatedCalls = await Call.findAll();
+    console.log(updatedCalls);
+    res.json(updatedCalls);
   } catch (error) {
     console.error("Error archiving all activities:", error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -70,15 +72,17 @@ export const archiveAllActivities = async (req: Request, res: Response): Promise
 };
 
 /**
- * Unarchives all calls in the database and returns a success message as a JSON response.
+ * Unarchives all calls in the database and returns the updated list of calls as a JSON response.
  * @param {Request} req - Express request object.
  * @param {Response} res - Express response object.
  * @returns {Promise<void>} - Promise that resolves when the response has been sent.
  */
 export const unarchiveAllActivities = async (req: Request, res: Response): Promise<void> => {
   try {
-    Call.update({ is_archived: false }, { where: { is_archived: true } });
-    res.json({ message: "All calls unarchived successfully" });
+    await Call.update({ is_archived: false }, { where: { is_archived: true } });
+    const updatedCalls = await Call.findAll();
+    console.log(updatedCalls);
+    res.json(updatedCalls);
   } catch (error) {
     console.error("Error unarchiving all activities:", error);
     res.status(500).json({ message: "Internal Server Error" });

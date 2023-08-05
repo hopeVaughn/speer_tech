@@ -16,7 +16,8 @@ const App: React.FC = () => {
   const handleButtonClick = async (tabType: string) => {
     const url = `${import.meta.env.VITE_DATABASE_URL_DEV}/${tabType === 'archive' ? 'archiveAll' : 'unarchiveAll'}`;
     try {
-      const response = await axios.patch(url);
+      const response = await axios.put(url);
+      console.log(url);
       const updatedCalls = response.data;
       setCalls(updatedCalls);
       setArchivedCalls(updatedCalls.filter((call: CallProps) => call.is_archived));
@@ -26,21 +27,20 @@ const App: React.FC = () => {
     }
   };
 
-
-  const refreshCalls = async () => {
-    try {
-      const response = await axios.get(`${import.meta.env.VITE_DATABASE_URL_DEV}`);
-      const allCalls = response.data;
-      setCalls(allCalls);
-      setArchivedCalls(allCalls.filter((call: CallProps) => call.is_archived));
-      setActiveCalls(allCalls.filter((call: CallProps) => !call.is_archived));
-    } catch (error) {
-      console.error('Error fetching activities:', error);
-    }
-  };
-
   useEffect(() => {
-    refreshCalls();
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_DATABASE_URL_DEV}`);
+        const allCalls = response.data;
+        setCalls(allCalls);
+        setArchivedCalls(allCalls.filter((call: CallProps) => call.is_archived));
+        setActiveCalls(allCalls.filter((call: CallProps) => !call.is_archived));
+      } catch (error) {
+        console.error('Error fetching activities:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   useEffect(() => {
