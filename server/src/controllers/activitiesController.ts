@@ -81,7 +81,6 @@ export const unarchiveAllActivities = async (req: Request, res: Response): Promi
   try {
     await Call.update({ is_archived: false }, { where: { is_archived: true } });
     const updatedCalls = await Call.findAll();
-    console.log(updatedCalls);
     res.json(updatedCalls);
   } catch (error) {
     console.error("Error unarchiving all activities:", error);
@@ -89,4 +88,37 @@ export const unarchiveAllActivities = async (req: Request, res: Response): Promi
   }
 };
 
+/**
+ * Archives a call with the specified ID in the database and returns the updated call as a JSON response.
+ * @param {Request} req - Express request object.
+ * @param {Response} res - Express response object.
+ * @returns {Promise<void>} - Promise that resolves when the response has been sent.
+ */
+export const archiveActivity = async (req: Request, res: Response): Promise<void> => {
+  try {
+    await Call.update({ is_archived: true }, { where: { id: req.params.call_id } });
+    const updatedCall = await Call.findByPk(req.params.call_id);
+    res.json(updatedCall);
+  } catch (error) {
+    console.error("Error archiving the activity:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+/**
+ * Unarchives a call with the specified ID in the database and returns the updated call as a JSON response.
+ * @param {Request} req - Express request object.
+ * @param {Response} res - Express response object.
+ * @returns {Promise<void>} - Promise that resolves when the response has been sent.
+ */
+export const unarchiveActivity = async (req: Request, res: Response): Promise<void> => {
+  try {
+    await Call.update({ is_archived: false }, { where: { id: req.params.call_id } });
+    const updatedCall = await Call.findByPk(req.params.call_id);
+    res.json(updatedCall);
+  } catch (error) {
+    console.error("Error unarchiving the activity:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
