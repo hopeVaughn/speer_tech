@@ -33,25 +33,28 @@ const ActivityItem: React.FC<ActivityItemProps> = ({ data, onlyArchived, showChe
         return (
           <article className="flex flex-col p-4" key={call.id}>
             <ActivityDate date={callTime} />
-            <section className="p-4 flex justify-between items-center rounded-lg shadow-md w-3/5 bg-white mx-auto">
-              <Link to={`/detail/${call.id}`} key={call.id} className="flex-grow flex justify-between items-center">
-                <div className="flex items-center">
-                  {iconType === 'incoming' ?
-                    <VscCallIncoming size={iconSize} color={callType === 'missed' ? 'red' : undefined} /> :
-                    <VscCallOutgoing size={iconSize} color={callType === 'missed' ? 'red' : undefined} />}
-                  <span className="font-bold text-lg ml-2 sm:ml-4">{callNumber}</span>
-                </div>
-                <div className="text-sm text-gray-600">
-                  {callTime.toLocaleTimeString()}
+            <section className="p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center rounded-lg shadow-md w-full sm:w-3/5 bg-white mx-auto">
+              <Link to={`/detail/${call.id}`} key={call.id} className="flex-grow flex flex-col sm:flex-row justify-between items-start sm:items-center w-full">
+                <div className="flex flex-row justify-between sm:justify-start items-center mb-2 sm:mb-0 w-full">
+                  <div className="flex items-center flex-grow">
+                    {iconType === 'incoming' ?
+                      <VscCallIncoming size={iconSize} color={callType === 'missed' ? 'red' : undefined} /> :
+                      <VscCallOutgoing size={iconSize} color={callType === 'missed' ? 'red' : undefined} />}
+                    <span className="font-bold text-lg ml-2 sm:ml-4">{callNumber}</span>
+                  </div>
+                  <div className="text-sm text-gray-600 mt-2 sm:mt-0 sm:ml-4 self-center sm:self-auto">
+                    {callTime.toLocaleTimeString()}
+                  </div>
+                  {showCheckboxes &&
+                    <input
+                      type="checkbox"
+                      className="transform scale-125 mr-2 sm:mr-0 ml-4 sm:ml-4 self-center sm:self-auto"
+                      onChange={(e) => handleCheckboxChange(e, call.id)}
+                      onClick={(e) => e.stopPropagation()}
+                    />
+                  }
                 </div>
               </Link>
-              {showCheckboxes && <input
-                type="checkbox"
-                className="mr-2 ml-4"
-                onChange={(e) => handleCheckboxChange(e, call.id)}
-                onClick={(e) => e.stopPropagation()}
-              />
-              }
             </section>
           </article>
         );
