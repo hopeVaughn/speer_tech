@@ -17,6 +17,7 @@ const ArchivePage: React.FC<ArchivedPageProps> = ({ calls, handleButtonClick, sh
           buttonText="Restore all messages"
           tabType='restore'
           handleButtonClick={handleButtonClick}
+          showCheckboxes={showCheckboxes}
         />
       </div>
       <ActivityItem data={calls} onlyArchived={true} showCheckboxes={showCheckboxes} />

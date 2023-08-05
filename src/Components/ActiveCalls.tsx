@@ -17,6 +17,7 @@ const ActivityFeed: React.FC<AllCallsProps> = ({ calls, handleButtonClick, showC
           buttonText="Archive all messages"
           handleButtonClick={handleButtonClick}
           tabType='archive'
+          showCheckboxes={showCheckboxes}
         />
       </div>
       <ActivityItem data={calls} onlyArchived={false} showCheckboxes={showCheckboxes} />
